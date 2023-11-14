@@ -11,7 +11,7 @@ const AddressList = ({ addresses, onChange }) => {
   };
 
   const addAddress = () => {
-    onChange([...addresses, { address: '', state: '' }]);
+    onChange([...addresses, { address: '', state: '', postalCode: '', city: ""}]);
   };
 
   const removeAddress = (index) => {

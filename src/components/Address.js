@@ -8,6 +8,7 @@ import {
     InputLabel,
     FormControl,
     Autocomplete,
+    Grid,
   } from '@mui/material';
 
   const FormField = ({ label, value, onChange, type = 'text', options = [], ...rest }) => (
@@ -48,25 +49,41 @@ const states = [
 const Address = ({ address, onChange }) => {
     return (
       <>
-        <FormField
-          label="Address"
-          value={address.address}
-          onChange={(value) => onChange('address', value)}
-        />
-        <FormField
-          label="State"
-          type="autocomplete"
-          options={states}
-          value={address.state}
-          onChange={(value) => onChange('state', value)}
-        />
-        <FormField
-          label="Postal Code"
-          value={address.postalCode}
-          onChange={(value) => onChange('postalCode', value)}
-        />
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <FormField
+              label="Address"
+              value={address.address}
+              onChange={(value) => onChange('address', value)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <FormField
+              label="City"
+              value={address.city}
+              onChange={(value) => onChange('city', value)}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <FormField
+              label="State"
+              type="autocomplete"
+              options={states}
+              value={address.state}
+              onChange={(value) => onChange('state', value)}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <FormField
+              label="Postal Code"
+              value={address.postalCode}
+              onChange={(value) => onChange('postalCode', value)}
+            />
+          </Grid>
+        </Grid>
       </>
     );
   };
   
   export default Address;
+  

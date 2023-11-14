@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { setDoc, doc } from "@firebase/firestore";
+import { setDoc, doc, getDocs } from "@firebase/firestore";
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
 
 
 
@@ -23,13 +24,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const myCollection = collection(db, 'patients');
 
 
 
 export default async function addPatients(formData) {
-    console.log("hit")
     try {
-        const myCollection = collection(db, 'patients');
         // Add the document to the collection
         const newDocRef = await addDoc(myCollection, formData);
         console.log('New document added with ID:', newDocRef.id);
@@ -37,3 +37,25 @@ export default async function addPatients(formData) {
         console.error('Error adding document: ', error);
       }
 };
+
+export async function getPatients() {
+    let res = []
+    try {
+      const querySnapshot = await getDocs(myCollection);
+      let count = 0
+      querySnapshot.forEach((doc) => {
+        // doc.data() is the data of each document
+        const data = doc.data();
+        console.log(data);
+        data["id"] = count
+        data["city"] = data.addresses[0].city
+        data["state"] = data.addresses[0].state
+        data["postalCode"] = data.addresses[0].postalCode
+        count += 1
+        res.push(data)
+      });
+      return res;
+    } catch (error) {
+      console.error('Error getting documents: ', error);
+    }
+  }

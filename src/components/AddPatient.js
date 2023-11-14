@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Grid,
   Box,
   Button,
   TextField,
@@ -59,26 +60,28 @@ const states = [
 ];
 
 
-const today = new Date().toISOString().split('T')[0];
-
-
-
+const today = 'mm-dd-yyyy';
+const initialFormValues = {
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  dateOfBirth: today,
+  status: '',
+  additionalFields: {},
+  addresses: [{ address: '', state: '', postalCode: '', city: ""}],
+}
 const MyForm = () => {
-  const [formValues, setFormValues] = useState({
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    dateOfBirth: today,
-    status: '',
-    additionalFields: {},
-    addresses: [],
-  });
+  
+  const [formValues, setFormValues] = useState({ ...initialFormValues });
 
-
+  const resetForm = () => {
+    setFormValues({ ...initialFormValues });
+  };
   
   const handleSubmit = async () => {
     console.log("hi")
     await addPatients(formValues);
+    resetForm();
   };
 
   const handleChange = (field, value) => {
@@ -91,8 +94,9 @@ const MyForm = () => {
   return (
     <Box
       sx={{
-        width: 400,
+        width: 1000,
         margin: 'auto',
+        marginTop: "5%",
         padding: 2,
         border: '1px solid #ccc',
         borderRadius: 4,
@@ -100,36 +104,53 @@ const MyForm = () => {
       }}
     >
       <form>
-        <FormField
-          label="First Name"
-          value={formValues.firstName}
-          onChange={(value) => handleChange('firstName', value)}
-        />
-        <FormField
-          label="Middle Name"
-          value={formValues.middleName}
-          onChange={(value) => handleChange('middleName', value)}
-        />
-        <FormField
-          label="Last Name"
-          value={formValues.lastName}
-          onChange={(value) => handleChange('lastName', value)}
-        />
-        <FormField
-          label="Status"
-          value={formValues.status}
-          onChange={(value) => handleChange('status', value)}
-          type="select"
-          options={["Inquiry", "Onboarding", "Active", "Churned"]}
-        />
-        <FormField
-          label="Date of Birth"
-          type="date"
-          value={formValues.dateOfBirth}
-          className={"hi"}
-          onChange={(value) => handleChange('dateOfBirth', value)}
-        />
-      <AddressList addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <FormField
+              label="First Name"
+              value={formValues.firstName}
+              onChange={(value) => handleChange('firstName', value)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <FormField
+              label="Middle Name"
+              value={formValues.middleName}
+              onChange={(value) => handleChange('middleName', value)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <FormField
+              label="Last Name"
+              value={formValues.lastName}
+              onChange={(value) => handleChange('lastName', value)}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <FormField
+              label="Status"
+              value={formValues.status}
+              onChange={(value) => handleChange('status', value)}
+              type="select"
+              options={["Inquiry", "Onboarding", "Active", "Churned"]}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormField
+              label="Date of Birth"
+              type="date"
+              value={formValues.dateOfBirth}
+              className={"hi"}
+              onChange={(value) => handleChange('dateOfBirth', value)}
+            />
+          </Grid>
+        </Grid>
+
+        <AddressList addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />
+        
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Submit
         </Button>
