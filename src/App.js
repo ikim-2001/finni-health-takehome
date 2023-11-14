@@ -1,7 +1,5 @@
-// App.js
 import React from "react";
-// import YourReactComponent from "./components/Button";
-import MyForm from "./components/Button";
+import MyForm from "./components/AddPatient";
 
 const App = () => {
   return (

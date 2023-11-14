@@ -10,15 +10,7 @@ import {
   Autocomplete,
 } from '@mui/material';
 import addPatients from '../utilities/firebase';
-
-const states = [
-  "Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-  "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota",
-  "Missouri", "Mississippi", "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York",
-  "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands",
-  "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"
-];
-
+import AddressList from './AddressList';
 
 const FormField = ({ label, value, onChange, type = 'text', options = [], ...rest }) => (
   <FormControl fullWidth margin="normal">
@@ -58,23 +50,36 @@ const FormField = ({ label, value, onChange, type = 'text', options = [], ...res
   </FormControl>
 );
 
+const states = [
+  "Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+  "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota",
+  "Missouri", "Mississippi", "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York",
+  "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands",
+  "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"
+];
+
+
+const today = new Date().toISOString().split('T')[0];
+
+
+
 const MyForm = () => {
   const [formValues, setFormValues] = useState({
     firstName: '',
     middleName: '',
     lastName: '',
-    dateOfBirth: null,
+    dateOfBirth: today,
     status: '',
-    address: '',
     additionalFields: {},
+    addresses: [],
   });
+
+
+  
   const handleSubmit = async () => {
     console.log("hi")
     await addPatients(formValues);
   };
-
-
-  const today = new Date().toISOString().split('T')[0];
 
   const handleChange = (field, value) => {
     setFormValues((prevFormValues) => ({
@@ -118,21 +123,13 @@ const MyForm = () => {
           options={["Inquiry", "Onboarding", "Active", "Churned"]}
         />
         <FormField
-          label="Address"
-          value={formValues.address}
-          onChange={(value) => handleChange('address', value)}
-        />
-        <FormField
-          label="State"
-          type="autocomplete"
-          options={states}
-        />
-        <FormField
           label="Date of Birth"
           type="date"
-          value={today}
+          value={formValues.dateOfBirth}
           className={"hi"}
+          onChange={(value) => handleChange('dateOfBirth', value)}
         />
+      <AddressList addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Submit
         </Button>
