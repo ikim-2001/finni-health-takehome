@@ -23,7 +23,7 @@ const AddressList = ({ addresses, onChange }) => {
   return (
     <div>
       {addresses.map((address, index) => (
-        <div key={index}>
+        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
           <Address address={address} onChange={(key, value) => handleAddressChange(index, key, value)} />
           {index > 0 && (
             <>
@@ -31,7 +31,7 @@ const AddressList = ({ addresses, onChange }) => {
                 variant="contained"
                 color="error"
                 onClick={() => removeAddress(index)}
-                style={{ marginRight: '8px' }}  
+                style={{ marginLeft: '8px' }}  
               >
                 Remove
               </Button>

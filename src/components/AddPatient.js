@@ -73,9 +73,12 @@ const initialFormValues = {
 const MyForm = () => {
   
   const [formValues, setFormValues] = useState({ ...initialFormValues });
+  const [addressListKey, setAddressListKey] = useState(0); // Unique key for AddressList
 
   const resetForm = () => {
     setFormValues({ ...initialFormValues });
+    setAddressListKey((prevKey) => prevKey + 1); // Trigger re-render of AddressList
+
   };
   
   const handleSubmit = async () => {
@@ -101,8 +104,10 @@ const MyForm = () => {
         border: '1px solid #ccc',
         borderRadius: 4,
         boxShadow: 2,
+        textAlign: "center"
       }}
     >
+      <h1>Add Patient</h1>
       <form>
         <Grid container spacing={2}>
           <Grid item xs={4}>
@@ -149,7 +154,7 @@ const MyForm = () => {
           </Grid>
         </Grid>
 
-        <AddressList addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />
+        <AddressList key={addressListKey} addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />
         
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Submit
