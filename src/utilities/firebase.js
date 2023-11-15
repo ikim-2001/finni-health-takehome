@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { setDoc, doc, getDocs } from "@firebase/firestore";
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 
 
 
@@ -46,7 +45,6 @@ export async function getPatients() {
       querySnapshot.forEach((doc) => {
         // doc.data() is the data of each document
         const data = doc.data();
-        console.log(data);
         data["id"] = count
         data["city"] = data.addresses[0].city
         data["state"] = data.addresses[0].state

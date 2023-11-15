@@ -1,28 +1,27 @@
 import React from "react";
 import MyForm from "./components/AddPatient";
 import './App.css'; 
-import Dashboard from "./components/Dashboard";
 import DataGridDemo from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import PatientDetails from "./components/PatientDetails";
+import { PatientsProvider } from "./utilities/PatientContext";
 
 
 const App = () => {
   return (
-    <div>
-                <Navbar/>
-        {/* <MyForm></MyForm> */}
-        <BrowserRouter>
-      {/* <UserProvider> */}
-        <Routes>
-          {/* This is the parent route - render its child routes */}
-            <Route path='/' element={<DataGridDemo />}/>
-            <Route path='/add' element={<MyForm />}/>
-        </Routes>
-        {/* </UserProvider> */}
-      </BrowserRouter>
-          {/* <DataGridDemo/> */}
-    </div>
+    <PatientsProvider>
+      <div>
+            <Navbar/>
+          <BrowserRouter>
+          <Routes>
+              <Route path='/' element={<DataGridDemo />}/>
+              <Route path='/add' element={<MyForm />}/>
+              <Route path='/patient-details/:id' element={<PatientDetails />}/>
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </PatientsProvider>
   );
 };
 

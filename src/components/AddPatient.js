@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Box,
@@ -59,7 +59,6 @@ const states = [
   "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"
 ];
 
-
 const today = 'mm-dd-yyyy';
 const initialFormValues = {
   firstName: '',
@@ -68,19 +67,19 @@ const initialFormValues = {
   dateOfBirth: today,
   status: '',
   additionalFields: {},
-  addresses: [{ address: '', state: '', postalCode: '', city: ""}],
+  addresses: [{ address: '', state: '', postalCode: '', city: "" }],
 }
+
 const MyForm = () => {
-  
   const [formValues, setFormValues] = useState({ ...initialFormValues });
   const [addressListKey, setAddressListKey] = useState(0); // Unique key for AddressList
+  const [additionalFields, setAdditionalFields] = useState([]); // Additional fields and values
 
   const resetForm = () => {
     setFormValues({ ...initialFormValues });
     setAddressListKey((prevKey) => prevKey + 1); // Trigger re-render of AddressList
-
   };
-  
+
   const handleSubmit = async () => {
     console.log("hi")
     await addPatients(formValues);
@@ -92,6 +91,36 @@ const MyForm = () => {
       ...prevFormValues,
       [field]: value,
     }));
+  };
+  const handleAddNewField = () => {
+    const newFieldName = prompt("Enter the name of the new field:");
+    console.log(newFieldName)
+    if (newFieldName) {
+      handleAdditionalFieldChange(newFieldName, "")
+    }
+  };
+
+  const handleAdditionalFieldChange = (fieldName, fieldValue) => {
+    setFormValues((prevFormValues) => ({
+      ...prevFormValues,
+      additionalFields: {
+        ...prevFormValues.additionalFields,
+        [fieldName]: fieldValue,
+      },
+    }));
+  };
+
+
+  const renderAdditionalFields = () => {
+    console.log(formValues.additionalFields)
+    return Object.entries(formValues.additionalFields).map(([fieldName, fieldValue]) => (
+      <FormField
+        key={fieldName}
+        label={fieldName}
+        value={fieldValue}
+        onChange={(value) => handleAdditionalFieldChange(fieldName, value)}
+      />
+    ));
   };
 
   return (
@@ -109,6 +138,9 @@ const MyForm = () => {
     >
       <h1>Add Patient</h1>
       <form>
+      <Button variant="contained" color="primary" onClick={handleAddNewField}>
+          Add New Fields
+        </Button>  
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <FormField
@@ -148,18 +180,17 @@ const MyForm = () => {
               label="Date of Birth"
               type="date"
               value={formValues.dateOfBirth}
-              className={"hi"}
               onChange={(value) => handleChange('dateOfBirth', value)}
             />
           </Grid>
         </Grid>
-
-        <AddressList key={addressListKey} addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />
-        
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
+        {renderAdditionalFields()}
+        <AddressList key={addressListKey} addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />     
+      </form>
+      <p></p>
+      <Button variant="contained" color="primary" onClick={handleSubmit}>
           Submit
         </Button>
-      </form>
     </Box>
   );
 };
