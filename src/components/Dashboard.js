@@ -88,7 +88,7 @@ export default function DataGridDemo() {
   };
 
   return (
-    <div>
+    <div> 
       <Box sx={{
         height: 400,
         width: '100%',
@@ -96,15 +96,25 @@ export default function DataGridDemo() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        cursor: 'pointer'
+        cursor: 'pointer',
       }}>
         <h1>Patient Data</h1>
         <input
-          type="text"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+  type="text"
+  placeholder="Search..."
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  style={{
+    width: '50%', // Set the width to 100% of the parent container
+    padding: '10px', // Add padding for better aesthetics
+    boxSizing: 'border-box', // Include padding and border in the element's total width and height
+    fontSize: '16px', // Set the font size
+    marginBottom: '16px', // Add some bottom margin for spacing
+    border: '2px solid #333', // Set a bolder border
+    borderRadius: '8px', // Set a bigger border radius
+  }}
+/>
+        <br/>
         {loading ? (
           <div>Loading...</div>
         ) : (
@@ -112,8 +122,6 @@ export default function DataGridDemo() {
             <DataGrid
               rows={patients || []}
               columns={columns}
-            //   checkboxSelection
-            //   disableRowSelectionOnClick
               getRowId={(row) => row.id}
               onRowClick={handleRowClick} // Add onRowClick prop
             />

@@ -1,6 +1,7 @@
 import React from "react";
 import MyForm from "./components/AddPatient";
 import './App.css'; 
+// import SignIn from './components/SignIn';
 import DataGridDemo from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
@@ -18,6 +19,7 @@ const App = () => {
               <Route path='/' element={<DataGridDemo />}/>
               <Route path='/add' element={<MyForm />}/>
               <Route path='/patient-details/:id' element={<PatientDetails />}/>
+              {/* <Route path="/signin" element={<SignIn/>}/> */}
           </Routes>
         </BrowserRouter>
       </div>

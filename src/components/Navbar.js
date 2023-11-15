@@ -1,20 +1,36 @@
-import React from 'react';
-const Navbar = () => {
-  return (
-    <nav style={{ backgroundColor: '#F28C28', padding: '1rem' }}>
-      <ul style={{ listStyle: 'none', display: 'flex', justifyContent: 'space-around', margin: 0, padding: 0 }}>
-      <li>
-            <a href='/'>Home</a>
-        </li>
-        <li>
-            <a href='/add'>Add Patient</a>
-        </li>
-        <li style={{ marginRight: '10px' }}>
-            Sign In
-        </li>
-      </ul>
-    </nav>
-  );
-};
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
-export default Navbar;
+
+export default function Navbarr() {
+
+  function handleClick() {
+    window.location.href = '/add'
+  }
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="home"
+            sx={{ mr: 2 }}
+          >
+            <a href='/'><MenuIcon /></a>
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 , cursor: 'pointer'}} onClick={handleClick}>
+           Add Patient
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+}

@@ -17,35 +17,34 @@ const PatientDetails = () => {
     return null;
   }
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h4" gutterBottom>
-          {`${patient.firstName} ${patient.middleName || ''} ${patient.lastName}`}
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Date of Birth: {patient.dateOfBirth}
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Status: {patient.status}
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Addresses: 
-        </Typography>
-        {patient.addresses.map((address, index) => (
-          <Typography key={index} variant="subtitle1" gutterBottom>
-            Address {index + 1}: {`${address.address} ${address.city}, ${address.state} ${address.postalCode}`}
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Card style={{ width: '400px', padding: '20px', border: '2px solid #ccc', borderRadius: '8px' }}>
+        <CardContent>
+          <Typography variant="h4" gutterBottom>
+            {`${patient.firstName} ${patient.middleName || ''} ${patient.lastName}`}
           </Typography>
-        ))}
-        {Object.entries(patient.additionalFields).map(([key, value], index) => (
-          <div key={index}>
-            <Typography variant="subtitle1" gutterBottom>
-              {`${key}: ${value}`}
+          <Typography variant="subtitle1" gutterBottom>
+            Date of Birth: {patient.dateOfBirth}
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            Status: {patient.status}
+          </Typography>
+          {patient.addresses.map((address, index) => (
+            <Typography key={index} variant="subtitle1" gutterBottom>
+              Address {index + 1}: {`${address.address} ${address.city}, ${address.state} ${address.postalCode}`}
             </Typography>
-          </div>
-        ))}
-        {/* Add more fields as needed */}
-      </CardContent>
-    </Card>
+          ))}
+          {Object.entries(patient.additionalFields).map(([key, value], index) => (
+            <div key={index}>
+              <Typography variant="subtitle1" gutterBottom>
+                {`${key}: ${value}`}
+              </Typography>
+            </div>
+          ))}
+          {/* Add more fields as needed */}
+        </CardContent>
+      </Card>
+    </div>
   );
-};  
+};
 export default PatientDetails;

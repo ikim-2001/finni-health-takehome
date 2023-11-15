@@ -1,9 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
-
-
-
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect} from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,8 +22,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const myCollection = collection(db, 'patients');
-
-
+export const auth = getAuth();
+export const provider = new GoogleAuthProvider();
 
 export default async function addPatients(formData) {
     try {
@@ -36,6 +34,29 @@ export default async function addPatients(formData) {
         console.error('Error adding document: ', error);
       }
 };
+
+
+export function signInPopup() {
+    const auth = getAuth();
+    console.log(auth)
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user)
+        return true
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        return true
+      });
+}
 
 export async function getPatients() {
     let res = []

@@ -81,10 +81,32 @@ const MyForm = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("hi")
+    let isEmptyValue = false;
+  
+    Object.entries(formValues)
+      .filter(([key]) => key !== 'additionalFields') // Exclude additionalFields
+      .forEach(([key, value]) => {
+        if (!value || value.length === 0) {
+          // Set the flag to true if any value is empty
+          isEmptyValue = true;
+        }
+      });
+  
+    if (isEmptyValue) {
+      // Display an alert error
+      alert('Please fill in all required fields');
+      return;
+    }
+  
+    // Proceed with form submission
     await addPatients(formValues);
     resetForm();
+    alert('Form submitted successfully');
   };
+  
+  
+  
+  
 
   const handleChange = (field, value) => {
     setFormValues((prevFormValues) => ({
