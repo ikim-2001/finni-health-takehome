@@ -1,7 +1,7 @@
 {
   "name": "finni-health-takehome",
   "version": "0.1.0",
-  "homepage": "https://ikim-2001.github.io/finni-health-takehome",
+  "homepage": "https://ikim-2001.github.io/finni-health-takehomes",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
