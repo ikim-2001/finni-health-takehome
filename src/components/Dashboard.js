@@ -7,9 +7,7 @@ import WelcomeScreen from "./WelcomeScreen";
 
 
 export default function Dashboard() {
-    const { user, signIn } = usePatientsContext();
-
-
+    const { user } = usePatientsContext();
     return (
         <Box sx={{
             height: '100%',

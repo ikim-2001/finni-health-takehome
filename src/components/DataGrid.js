@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
 import { getPatients } from '../utilities/firebase';
 import { usePatientsContext } from '../utilities/PatientContext';
 import Button from '@mui/material/Button';

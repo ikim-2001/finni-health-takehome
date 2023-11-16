@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import {
   Grid,
   Box,
@@ -52,13 +52,6 @@ const FormField = ({ label, value, onChange, type = 'text', options = [], ...res
   </FormControl>
 );
 
-const states = [
-  "Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-  "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota",
-  "Missouri", "Mississippi", "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York",
-  "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands",
-  "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"
-];
 
 const today = 'mm-dd-yyyy';
 const initialFormValues = {
@@ -74,7 +67,6 @@ const initialFormValues = {
 const MyForm = () => {
   const [formValues, setFormValues] = useState({ ...initialFormValues });
   const [addressListKey, setAddressListKey] = useState(0); // Unique key for AddressList
-  const [additionalFields, setAdditionalFields] = useState([]); // Additional fields and values
   const { user } = usePatientsContext();
 
 

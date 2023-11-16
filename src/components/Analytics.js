@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from '@mui/material/Box';
 import { usePatientsContext } from "../utilities/PatientContext";
 import Button from '@mui/material/Button';
 
 export default function Analytics() {
   const { patients, handleUpdate, initialPatients } = usePatientsContext();
-  const [filteredStatus, setFilteredStatus] = useState(null);
 
   const totalPatients = initialPatients ? initialPatients.length : 0;
 
@@ -17,7 +16,6 @@ export default function Analytics() {
   };
 
   const handleStatusClick = (status) => {
-    setFilteredStatus(status);
     if (status === "All") {
         handleUpdate(initialPatients);
     } else {

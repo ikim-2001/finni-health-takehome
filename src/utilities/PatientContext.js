@@ -1,16 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getPatients } from '../utilities/firebase'; // Import your function to fetch patients
-import { signInWithPopup, signInWithRedirect } from "firebase/auth";
-import { signInPopup } from '../utilities/firebase';
+import { signInWithPopup} from "firebase/auth";
 import { auth, provider} from '../utilities/firebase';
 import { useNavigate } from 'react-router-dom';
 
 
 const PatientsContext = createContext();
-
-
 export const usePatientsContext = () => useContext(PatientsContext);
-
 
 export const PatientsProvider = ({ children }) => {
   const [patients, setContextPatients] = useState([]);
@@ -24,13 +20,10 @@ export const PatientsProvider = ({ children }) => {
       setUser(user);
     })
    
-
     // Clean up the listener when the component unmounts
     return unsubscribe;
   }, []);
 
-
-  // You can add more state and functions related to authentication here
   const signIn = () => {
     signInWithPopup(auth, provider);
   };

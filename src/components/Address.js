@@ -1,11 +1,6 @@
 import React from 'react';
 import {
-    Box,
-    Button,
     TextField,
-    MenuItem,
-    Select,
-    InputLabel,
     FormControl,
     Autocomplete,
     Grid,
@@ -15,7 +10,6 @@ import {
     <FormControl fullWidth margin="normal">
       {type === 'select' ? (
         <>
-          {/* ... (unchanged) */}
         </>
       ) : type === 'autocomplete' ? (
         <Autocomplete
