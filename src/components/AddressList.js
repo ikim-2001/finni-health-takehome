@@ -41,7 +41,11 @@ const AddressList = ({ addresses, onChange }) => {
       ))}
       <Button
         variant="contained"
-        color="primary"
+        sx={{backgroundColor: '#A77B7B',
+              '&:hover': {
+                backgroundColor: '#FFFFFF',
+                color: '#A77B7B', // Dusty rose
+              },}} 
         onClick={addAddress}
       >
         Add Address

@@ -25,9 +25,9 @@ const myCollection = collection(db, 'patients');
 export const auth = getAuth();
 export const provider = new GoogleAuthProvider();
 
-export default async function addPatients(formData) {
+export default async function addPatients(formData, uid) {
     try {
-        // Add the document to the collection
+        formData["user"] = uid;
         const newDocRef = await addDoc(myCollection, formData);
         console.log('New document added with ID:', newDocRef.id);
       } catch (error) {
@@ -36,42 +36,23 @@ export default async function addPatients(formData) {
 };
 
 
-export function signInPopup() {
-    const auth = getAuth();
-    console.log(auth)
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        console.log(user)
-        return true
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        return true
-      });
-}
 
-export async function getPatients() {
+export async function getPatients(user) {
+    if (!user) return
     let res = []
     try {
       const querySnapshot = await getDocs(myCollection);
       let count = 0
       querySnapshot.forEach((doc) => {
-        // doc.data() is the data of each document
         const data = doc.data();
-        data["id"] = count
-        data["city"] = data.addresses[0].city
-        data["state"] = data.addresses[0].state
-        data["postalCode"] = data.addresses[0].postalCode
-        count += 1
-        res.push(data)
+        if (data.user === user.uid) {
+            data["id"] = count
+            data["city"] = data.addresses[0].city
+            data["state"] = data.addresses[0].state
+            data["postalCode"] = data.addresses[0].postalCode
+            count += 1
+            res.push(data)
+        }
       });
       return res;
     } catch (error) {

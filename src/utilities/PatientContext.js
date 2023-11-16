@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getPatients } from '../utilities/firebase'; // Import your function to fetch patients
-import { signInWithRedirect } from "firebase/auth";
+import { signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { signInPopup } from '../utilities/firebase';
+import { auth, provider} from '../utilities/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 const PatientsContext = createContext();
@@ -12,43 +14,54 @@ export const usePatientsContext = () => useContext(PatientsContext);
 
 export const PatientsProvider = ({ children }) => {
   const [patients, setContextPatients] = useState([]);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [initialPatients, setInitialContextPatients] = useState([]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Listen for auth state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    })
+   
+
+    // Clean up the listener when the component unmounts
+    return unsubscribe;
+  }, []);
+
 
   // You can add more state and functions related to authentication here
-
   const signIn = () => {
-    if (signInPopup()) {
-        
-    }
-
-    setIsSignedIn(true);
+    signInWithPopup(auth, provider);
   };
 
-  const signOut = () => {
-    // Add your sign-out logic here
-    // For example, setting the state to false for demonstration purposes
-    setIsSignedIn(false);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const patientsData = await getPatients();
+        const patientsData = await getPatients(user);
         setContextPatients(patientsData);
+        setInitialContextPatients(patientsData);
       } catch (error) {
         console.error('Error fetching patients: ', error);
       } 
     };
 
     fetchData();
-  }, []);
+  }, [user]);
+
+  const signOut = () => {
+    
+    auth.signOut();
+    navigate("/");
+  };
 
   function handleUpdate(newPatients) {
     setContextPatients(newPatients);
   }
 
   return (
-    <PatientsContext.Provider value={{ patients, handleUpdate, signIn, signOut, isSignedIn}}>
+    <PatientsContext.Provider value={{ initialPatients, patients, handleUpdate, signIn, signOut, user}}>
       {children}
     </PatientsContext.Provider>
   );

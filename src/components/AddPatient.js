@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import addPatients from '../utilities/firebase';
 import AddressList from './AddressList';
+import { usePatientsContext } from '../utilities/PatientContext';
 
 const FormField = ({ label, value, onChange, type = 'text', options = [], ...rest }) => (
   <FormControl fullWidth margin="normal">
@@ -74,6 +75,8 @@ const MyForm = () => {
   const [formValues, setFormValues] = useState({ ...initialFormValues });
   const [addressListKey, setAddressListKey] = useState(0); // Unique key for AddressList
   const [additionalFields, setAdditionalFields] = useState([]); // Additional fields and values
+  const { user } = usePatientsContext();
+
 
   const resetForm = () => {
     setFormValues({ ...initialFormValues });
@@ -99,7 +102,7 @@ const MyForm = () => {
     }
   
     // Proceed with form submission
-    await addPatients(formValues);
+    await addPatients(formValues, user.uid);
     resetForm();
     alert('Form submitted successfully');
   };
@@ -152,15 +155,20 @@ const MyForm = () => {
         margin: 'auto',
         marginTop: "5%",
         padding: 2,
-        border: '1px solid #ccc',
-        borderRadius: 4,
+        border: '10px solid #A77B7B',
+        borderRadius: 20,
         boxShadow: 2,
         textAlign: "center"
       }}
     >
       <h1>Add Patient</h1>
       <form>
-      <Button variant="contained" color="primary" onClick={handleAddNewField}>
+      <Button sx={{backgroundColor: '#A77B7B',
+              '&:hover': {
+                backgroundColor: '#FFFFFF',
+                color: '#A77B7B', // Dusty rose
+              },}} 
+              variant="contained" color="primary" onClick={handleAddNewField}>
           Add New Fields
         </Button>  
         <Grid container spacing={2}>
@@ -210,7 +218,11 @@ const MyForm = () => {
         <AddressList key={addressListKey} addresses={formValues.addresses} onChange={(value) => handleChange('addresses', value)} />     
       </form>
       <p></p>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button variant="contained" sx={{backgroundColor: '#A77B7B',
+              '&:hover': {
+                backgroundColor: '#FFFFFF',
+                color: '#A77B7B', // Dusty rose
+              },}}  onClick={handleSubmit}>
           Submit
         </Button>
     </Box>

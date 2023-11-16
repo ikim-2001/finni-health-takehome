@@ -5,30 +5,46 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import { usePatientsContext } from '../utilities/PatientContext';
+
+export default function Navbar() {
+  const { signIn, signOut, user } = usePatientsContext();
+
+  const fallColors = {
+    primary: '#A77B7B', // Softer tone of orange
+    secondary: '#A77B7B', // Softer tone of brown
+    loginButton: '#F4E3D7', // Light pastel yellow
+    loginButtonHover: '#FFE69D', // Slightly darker yellow on hover
+  };
+
+  const handleClick = () => {
+    const detailsLink = `/`;
+    window.location.href = detailsLink;
+  };
 
 
-export default function Navbarr() {
+  const getButtonColor = () => (user ? fallColors.secondary : fallColors.primary);
 
-  function handleClick() {
-    window.location.href = '/add'
-  }
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: fallColors.primary }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="home"
-            sx={{ mr: 2 }}
-          >
-            <a href='/'><MenuIcon /></a>
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 , cursor: 'pointer'}} onClick={handleClick}>
-           Add Patient
+          <Typography onClick={handleClick} variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }}>
+            Finni Health
           </Typography>
+          <Button
+            color="inherit"
+            onClick={user ? signOut : signIn}
+            sx={{
+              color: getButtonColor(),
+              backgroundColor: fallColors.loginButton,
+              '&:hover': {
+                backgroundColor: fallColors.loginButtonHover,
+              },
+            }}
+          >
+            {user ? 'Sign out' : 'Login'}
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

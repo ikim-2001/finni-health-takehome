@@ -9,6 +9,9 @@
   height: 80%
 }
 
+body {
+  background-color: #FFF7E1; /* Cream pastel color */
+}
 .remaining-space {
   flex: 4;
   width: 80%; /* Adjust as needed */
