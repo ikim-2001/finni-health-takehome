@@ -146,7 +146,7 @@ export default function DataGridDemo() {
           </Button>
         </Box>
         <br />
-        {patients.length === 0 ? (
+        {patients && patients.length === 0 ? (
           <h1>No Patients Available. Click 'Add New' to create more!</h1>
         ) : (
           (loading) ? (
